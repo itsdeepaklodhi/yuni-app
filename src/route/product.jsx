@@ -3,7 +3,6 @@ import { useState, useRef } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import mapboxgl from "mapbox-gl";
 import tt from "@tomtom-international/web-sdk-maps";
 import { services } from "@tomtom-international/web-sdk-services";
 import { JwtContext, LocationContext, ToastContext } from "../App";
