@@ -2,10 +2,6 @@ import { Outlet, ScrollRestoration } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
 import ToastAlert from "./component/toastAlert";
 import { Toast } from "bootstrap";
-import mapboxgl from "mapbox-gl";
-
-mapboxgl.accessToken =
-  "pk.eyJ1IjoiaXRzZGVlcGFrbG9kaGkiLCJhIjoiY2xnOGNsYmQyMHdiNDNzbzk4cHN1NnJkMiJ9.RrLNrhLWwaHWsp9T6flzlQ";
 
 export const LocationContext = createContext(null);
 export const JwtContext = createContext(null);
