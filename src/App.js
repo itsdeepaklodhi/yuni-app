@@ -1,25 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+import { Outlet, ScrollRestoration } from "react-router-dom";
+import { createContext, useEffect, useState } from "react";
+import ToastAlert from "./component/toastAlert";
+import { Toast } from "bootstrap";
+import mapboxgl from "mapbox-gl";
 
-function App() {
+mapboxgl.accessToken =
+  "pk.eyJ1IjoiaXRzZGVlcGFrbG9kaGkiLCJhIjoiY2xnOGNsYmQyMHdiNDNzbzk4cHN1NnJkMiJ9.RrLNrhLWwaHWsp9T6flzlQ";
+
+export const LocationContext = createContext(null);
+export const JwtContext = createContext(null);
+export const SessionContext = createContext(null);
+export const ToastContext = createContext(null);
+
+export default function App() {
+  const [location, setL] = useState(
+    JSON.parse(sessionStorage.getItem("location"))
+  );
+  const [jwt, setJ] = useState(sessionStorage.getItem("jwt"));
+  const [toast, setToast] = useState(undefined);
+
+  const setLocation = (latLng) => {
+    console.log(latLng);
+    sessionStorage.setItem("location", JSON.stringify(latLng));
+    setL(latLng);
+  };
+
+  const setJwt = (jwt) => {
+    sessionStorage.setItem("jwt", jwt);
+    setJ(jwt);
+  };
+
+  const notify = (msg) => {
+    setToast({ ...toast, msg });
+    toast.instance.show();
+    console.log(toast);
+  };
+
+  useEffect(() => {
+    if (toast) return;
+    setToast({
+      msg: "",
+      instance: new Toast(document.getElementById("toast")),
+    });
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div id="appdiv">
+      <LocationContext.Provider value={{ location, setLocation }}>
+        <JwtContext.Provider value={{ jwt, setJwt }}>
+          <ToastContext.Provider value={{ notify }}>
+            <Outlet />
+            <ScrollRestoration />
+            <ToastAlert msg={toast && toast.msg} />
+          </ToastContext.Provider>
+        </JwtContext.Provider>
+      </LocationContext.Provider>
     </div>
   );
 }
-
-export default App;
