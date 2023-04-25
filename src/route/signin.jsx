@@ -6,16 +6,18 @@ import {
   useActionData,
   useNavigation,
   useOutletContext,
+  useNavigate,
 } from "react-router-dom";
 import { JwtContext, ToastContext } from "../App";
 export default function Signin() {
-  console.log("in signin");
   const { setJwt } = useContext(JwtContext);
   const { setNavComp } = useOutletContext();
   const [formErr, setFormErr] = useState(undefined);
   const { notify } = useContext(ToastContext);
   const navigation = useNavigation();
   const actionData = useActionData();
+
+  const navigate = useNavigate();
 
   useEffect(() => setNavComp("signin"), []);
 
@@ -24,7 +26,7 @@ export default function Signin() {
       if (actionData.jwt) {
         setJwt(actionData.jwt);
         notify("You Are Logged In");
-        window.history.back();
+        navigate("/");
       } else setFormErr(actionData.err);
     }
   });

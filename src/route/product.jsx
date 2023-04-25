@@ -421,7 +421,7 @@ function MapModal(props) {
             ></button>
           </div>
           <div className="modal-body position-relative p-0">
-            <div className="w-100" style={{ height: "70vh" }}>
+            <div className="w-100 h-100">
               <div ref={mapContainer} className="h-100 w-100"></div>
             </div>
             <button

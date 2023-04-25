@@ -53,12 +53,11 @@ body {
 .store .img-wrap img {
   height: 100%;
   max-width: 100%;
-  width: auto;
+  object-fit: contain;
 }
 
 .store .img-wrap {
   height: 150px;
-  padding: 0.5rem;
 }
 
 .limit-2lines {
