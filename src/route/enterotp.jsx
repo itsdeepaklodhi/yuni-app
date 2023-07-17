@@ -2,7 +2,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import * as Yup from "yup";
 import { SessionContext } from "../App";
 
@@ -11,13 +11,14 @@ export default function EnterOtp() {
   const { token } = useContext(SessionContext);
   const [verified, setVerified] = useState(false);
   const [timeOut, setTimeOut] = useState(false);
+  const {otp : links} = useOutletContext();
   const [error, setError] = useState(undefined);
   if (error) throw error;
 
   return (
-    <section className="padding-y" style={{ minHeight: "75vh" }}>
-      <div className="container ">
-        <div className="mt-5 pt-5">
+    <section className="h-100 d-flex justify-content-center align-items-center">
+      <div className="container py-5 ">
+        <div className="">
           <div className="card shadow mx-auto" style={{ maxWidth: "350px" }}>
             <div className="card">
               <div className="card-body">
@@ -33,7 +34,7 @@ export default function EnterOtp() {
                     form.append("otp", values.otp);
                     const headers = new Headers({ "X-Auth-Token": token });
                     fetch(
-                      "https://api.yunistore.in/auth/signup/verify-email/otp",
+                      links.endpoint,
                       {
                         method: "post",
                         headers,
@@ -49,7 +50,7 @@ export default function EnterOtp() {
                           actions.setFieldError("otp", "Request timeout");
                         } else throw res;
                       })
-                      .catch((err) => setError(err))
+                      .catch(setError)
                       .finally(() => {
                         actions.setSubmitting(false);
                       });
@@ -102,7 +103,7 @@ export default function EnterOtp() {
                           navigate(
                             timeOut
                               ? "/signup/enter-email"
-                              : "/signup/user-details"
+                              : links.to
                           )
                         }
                         disabled={!(verified || timeOut)}

@@ -1,12 +1,12 @@
-import { Formik, Field, Form, ErrorMessage, yupToFormErrors } from "formik";
+import { Formik, Field, Form, ErrorMessage, } from "formik";
 import { useContext } from "react";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 import * as Yup from "yup";
-import { JwtContext, SessionContext, ToastContext } from "../App";
-import { Modal, Toast } from "bootstrap";
-import { action } from "./profilemainedit";
+import { JwtContext,  ToastContext } from "../App";
+import { Modal, } from "bootstrap";
+
 
 export default function AddProduct(props) {
   const { jwt } = useContext(JwtContext);
@@ -36,14 +36,23 @@ export default function AddProduct(props) {
       }}
       validationSchema={Yup.object({
         images: Yup.mixed().test(
-          "images",
+          "images-count",
           "select at least 2 images",
           (value) => {
             if (!value) return false;
             if (value instanceof FileList && value.length > 1) return true;
             return false;
           }
-        ),
+        )
+        .test("images-size","image size must be less then 512KB",
+        (value)=>{
+             if(value instanceof FileList){
+              for( const image of value)
+                  if(image.size > 512000) return false;
+             } 
+             return true;
+        })
+        ,
         title: Yup.string()
           .min(8, "must be 8 characters or more")
           .required("Title needed"),
@@ -457,7 +466,7 @@ export default function AddProduct(props) {
                 >
                   {formik.isSubmitting ? (
                     <span
-                      class="spinner-border spinner-border-sm"
+                      className="spinner-border spinner-border-sm"
                       role="status"
                       aria-hidden="true"
                     ></span>

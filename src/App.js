@@ -13,10 +13,12 @@ export default function App() {
     JSON.parse(sessionStorage.getItem("location"))
   );
   const [jwt, setJ] = useState(sessionStorage.getItem("jwt"));
+  const [token, setT] = useState(sessionStorage.getItem("sessionToken"));
   const [toast, setToast] = useState(undefined);
 
+
   const setLocation = (latLng) => {
-    console.log(latLng);
+    // console.log(latLng);
     sessionStorage.setItem("location", JSON.stringify(latLng));
     setL(latLng);
   };
@@ -26,10 +28,17 @@ export default function App() {
     setJ(jwt);
   };
 
+  
+  const setToken = (t) => {
+    sessionStorage.setItem("sessionToken", t);
+    setT(t);
+  };
+
+
   const notify = (msg) => {
     setToast({ ...toast, msg });
     toast.instance.show();
-    console.log(toast);
+    // console.log(toast);
   };
 
   useEffect(() => {
@@ -41,16 +50,18 @@ export default function App() {
   });
 
   return (
-    <div id="appdiv">
+    <>
       <LocationContext.Provider value={{ location, setLocation }}>
         <JwtContext.Provider value={{ jwt, setJwt }}>
-          <ToastContext.Provider value={{ notify }}>
-            <Outlet />
-            <ScrollRestoration />
-            <ToastAlert msg={toast && toast.msg} />
-          </ToastContext.Provider>
+          <SessionContext.Provider value={{ token, setToken }}>
+              <ToastContext.Provider value={{ notify }}>
+                <Outlet />
+                <ScrollRestoration />
+                <ToastAlert msg={toast && toast.msg} />
+              </ToastContext.Provider>
+          </SessionContext.Provider> 
         </JwtContext.Provider>
       </LocationContext.Provider>
-    </div>
+    </>
   );
 }

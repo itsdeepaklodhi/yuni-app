@@ -40,7 +40,8 @@ body {
   color: #212529;
 }
 .card-store-list .img-wrap {
-  height: 150px;
+  height: 100px;
+  width: 100px;
   padding: 0.5rem;
 }
 .card-store-list .info-aside {

@@ -1,9 +1,8 @@
-import { Button } from "bootstrap";
-import { replace } from "formik";
+
 import { useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
-import { Link, Outlet, useNavigate, useResolvedPath } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { JwtContext, ToastContext } from "../App";
 
 export default function Profile() {
@@ -15,7 +14,7 @@ export default function Profile() {
   const { notify } = useContext(ToastContext);
 
   useEffect(() => {
-    if (!jwt) navigate("/signin");
+    if (!jwt) navigate("/signin", {replace: true});
   });
 
   const arr = ["main", "wishlist", "store"];
@@ -26,10 +25,10 @@ export default function Profile() {
         <div className="container">
           <ol className="breadcrumb ondark mb-0">
             <li className="breadcrumb-item">
-              <a href="#">Home</a>
+              <span>Home</span>
             </li>
             <li className="breadcrumb-item">
-              <a>Profile</a>
+              <span>Profile</span>
             </li>
             <li
               className="breadcrumb-item text-capitalize active"

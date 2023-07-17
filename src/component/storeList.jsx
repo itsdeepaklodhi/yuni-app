@@ -10,18 +10,18 @@ export default function StoreList(props) {
   return (
     <div className="row g-3">
       {props.stores.map((store) => (
-        <div className="col-md-6">
+        <div className="col-md-6 col-xxl-4" key={store.id}>
           <article
             className=" card card-store-list"
             onClick={() => goTo(store.id)}
           >
             <div className="row g-0">
-              <div className="col-3">
-                <div className="img-wrap h-100">
-                  <img src={store.imageUrl || storedp} />
+              <div className="col-4">
+                <div className="img-wrap ">
+                  <img src={store.imageUrl || storedp} alt="store" />
                 </div>
               </div>
-              <div className="col-9">
+              <div className="col-8">
                 <div className="card-body h-100 d-flex flex-column justify-content-between ps-0 pe-2 py-3">
                   <div>
                     <p href="#" className="title h5">
@@ -42,8 +42,8 @@ export default function StoreList(props) {
 export function Placeholder() {
   return (
     <div className="row g-3">
-      {Array.from({ length: 6 }, (store) => (
-        <div className="col-md-6">
+      {Array.from({ length: 6 }, (v,i) => (
+        <div className="col-md-6" key={i}>
           <article className=" card card-store-list placeholder-wave">
             <div className="row g-0">
               <div className="col-3">

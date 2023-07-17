@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { SessionContext, ToastContext } from "../App";
 
 export default function UserDetails() {
-  const { token } = useContext(SessionContext);
+  const { token,setToken } = useContext(SessionContext);
   const { notify } = useContext(ToastContext);
   const navigate = useNavigate();
   const [error, setError] = useState(undefined);
@@ -50,6 +50,7 @@ export default function UserDetails() {
           .then((res) => {
             if (res.ok) {
               notify("Account Created");
+              setToken("");
               navigate("/home");
             } else throw res;
           })
@@ -64,8 +65,8 @@ export default function UserDetails() {
   );
 
   return (
-    <section className="bg-light">
-      <div className="container pt-5">
+    <section className="h-100 d-flex justify-content-center align-items-center">
+      <div className=" py-5  container ">
         <div className="card shadow mx-auto" style={{ maxWidth: "400px" }}>
           <div className="card-body">
             <h4 className="card-title mb-4">Sign up</h4>
@@ -251,8 +252,6 @@ export default function UserDetails() {
             </MyFormik>
           </div>
         </div>
-        <br />
-        <br />
       </div>
     </section>
   );

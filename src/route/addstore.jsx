@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage, yupToFormErrors } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useState, useRef } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
@@ -7,6 +7,7 @@ import tt from "@tomtom-international/web-sdk-maps";
 import * as Yup from "yup";
 import { JwtContext, LocationContext, ToastContext } from "../App";
 import { Modal } from "bootstrap";
+import { ttKey } from "../config";
 
 export default function AddStore() {
   const mapContainer = useRef(null);
@@ -44,7 +45,7 @@ export default function AddStore() {
     const center = [location.longitude, location.latitude];
 
     let ttMap = tt.map({
-      key: "p5U8MxTf8OGcluRN9TD3POVGMLtGAiis",
+      key: ttKey,
       container: mapContainer.current,
       style: mode.current.street,
       center: center,
@@ -83,8 +84,8 @@ export default function AddStore() {
   }, []);
 
   return (
-    <section className="bg-light">
-      <div className="container pt-5">
+    <section className="h-100 d-flex justify-content-center align-items-center">
+      <div className="container py-5">
         <div className="card shadow mx-auto" style={{ maxWidth: "400px" }}>
           <div className="card-body">
             <h4 className="card-title mb-4">Store Details</h4>
@@ -98,7 +99,9 @@ export default function AddStore() {
                 location: "",
               }}
               validationSchema={Yup.object({
-                image: Yup.mixed().required("required"),
+                image: Yup.mixed().test('image-size',"image size must be less then 512KB",
+                value=>!(value.size>512000)
+                ).required("required"),
                 name: Yup.string()
                   .min(5, "must have 5 or more characters")
                   .max(40, "must be 40 characters or less")
@@ -110,6 +113,7 @@ export default function AddStore() {
                   .matches("^[0-9]{10}$", "must be a 10 digit number")
                   .required("required"),
               })}
+              
               onSubmit={(values, actions) => {
                 const { image, ...store } = values;
 
@@ -241,13 +245,12 @@ export default function AddStore() {
           </div>
         </div>
 
-        <br />
-        <br />
+
       </div>
       <div
         className="modal fade"
         id="locationModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
         ref={mapModal}

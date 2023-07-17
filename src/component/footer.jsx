@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="section-footer bg-primary footer-dark shadow footer ">
+    <footer className="section-footer bg-primary footer-dark shadow footer mt-auto ">
       <div className="container">
         <section className="footer-main padding-y">
           <div className="row">
@@ -18,7 +18,7 @@ export default function Footer() {
                   <a
                     className="btn btn-icon btn-light me-1"
                     title="Facebook"
-                    target="_blank"
+                    
                     href="#"
                   >
                     <i className="bi bi-facebook"></i>
@@ -26,7 +26,7 @@ export default function Footer() {
                   <a
                     className="btn btn-icon btn-light me-1"
                     title="Instagram"
-                    target="_blank"
+                  
                     href="#"
                   >
                     <i className="bi bi-instagram"></i>
@@ -34,7 +34,7 @@ export default function Footer() {
                   <a
                     className="btn btn-icon btn-light me-1"
                     title="Youtube"
-                    target="_blank"
+                    
                     href="#"
                   >
                     <i className="bi bi-youtube"></i>
@@ -42,7 +42,7 @@ export default function Footer() {
                   <a
                     className="btn btn-icon btn-light me-1"
                     title="Twitter"
-                    target="_blank"
+                  
                     href="#"
                   >
                     <i className="bi bi-twitter"></i>
@@ -57,14 +57,12 @@ export default function Footer() {
                   <a href="#">About us</a>
                 </li>
                 <li>
-                  <a href="#">Services</a>
+                  <a href="#">Documents</a>
                 </li>
                 <li>
                   <a href="#">Terms and Policy</a>
                 </li>
-                <li>
-                  <a href="#">Blogs</a>
-                </li>
+                
               </ul>
             </aside>
             <aside className="col-4 col-sm-4 col-lg-2">
@@ -74,11 +72,12 @@ export default function Footer() {
                   <a href="#">Help center</a>
                 </li>
                 <li>
-                  <a href="#">Terms and Policy</a>
+                  <a href="#">Blogs</a>
                 </li>
                 <li>
-                  <a href="#">Documents</a>
+                  <a href="#">Contact us</a>
                 </li>
+               
               </ul>
             </aside>
             <aside className="col-4 col-sm-4 col-lg-2">
@@ -91,7 +90,7 @@ export default function Footer() {
                   <Link to="/signup/enter-email"> User register </Link>
                 </li>
                 <li>
-                  <Link t0="/profile/main"> Account Setting </Link>
+                  <Link to="/profile/main"> Account Setting </Link>
                 </li>
               </ul>
             </aside>

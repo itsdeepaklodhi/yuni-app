@@ -7,7 +7,7 @@ export default function Layout2() {
 
   return (
     <>
-      <header className="section-header border-bottom bg-white">
+      <header className="section-header border-bottom bg-white main-header">
         <section className="header-main">
           <div className="container">
             <div className="row gy-3 align-items-center">
@@ -44,11 +44,13 @@ export default function Layout2() {
           </div>
         </section>
       </header>
+      <div className="flex-grow-1">
       <Outlet context={{ setNavComp }} />
-      <footer className="section-footer border-top padding-y bg-white  w-100">
+      </div>
+      <footer className="section-footer border-top py-4 bg-white  w-100 main-footer mt-auto">
         <div className="container">
-          <p className="float-md-end">© Copyright 2022 All rights reserved</p>
-          <p>
+          <p className="float-md-end m-0">© Copyright 2022 All rights reserved</p>
+          <p className="m-0">
             <a href="#" className="link-primary">
               Terms and conditions
             </a>

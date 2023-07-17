@@ -3,13 +3,12 @@ import storedp from "../images/storedp.jpg";
 import UpdateProduct from "../component/updateproduct";
 import tt from "@tomtom-international/web-sdk-maps";
 import { useState, useEffect, useContext } from "react";
-import { redirect, useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { JwtContext } from "../App";
 import AddProduct from "../component/addproduct";
-import { Modal } from "bootstrap";
 import InfiniteScroll from "react-infinite-scroller";
-import { useMemo } from "react";
 import { useRef } from "react";
+import { ttKey } from "../config";
 
 export default function ProfileStore() {
   const [products, setProducts] = useState([]);
@@ -28,7 +27,7 @@ export default function ProfileStore() {
 
   useEffect(() => {
     if (!jwt) {
-      navigate("/signin");
+      navigate("/signin", {replace: true});
       return;
     }
     fetchStore();
@@ -39,7 +38,7 @@ export default function ProfileStore() {
     const storeLocation = [store.lng, store.ltd];
     // const current = [77.733788, 24.5701017];
     var map = tt.map({
-      key: "p5U8MxTf8OGcluRN9TD3POVGMLtGAiis",
+      key: ttKey,
       container: mapContainer.current,
       center: storeLocation,
       zoom: 13,
@@ -126,11 +125,11 @@ export default function ProfileStore() {
     return (
       <>
         <div
-          class="d-flex justify-content-center align-items-center "
+          className="d-flex justify-content-center align-items-center "
           style={{ height: "90vh" }}
         >
-          <div class="spinner-border " role="status">
-            <span class="visually-hidden">Loading...</span>
+          <div className="spinner-border " role="status">
+            <span className="visually-hidden">Loading...</span>
           </div>
         </div>
       </>
@@ -146,9 +145,9 @@ export default function ProfileStore() {
               <div className="col-md-6 col-lg-6">
                 <div className="row">
                   <aside className="col-5 store bg-light">
-                    <a href="#" className="img-wrap">
-                      <img src={store.imageUrl || storedp} />
-                    </a>
+                    <div  className="img-wrap">
+                      <img src={store.imageUrl || storedp} alt="store" />
+                    </div>
                   </aside>
                   <div className="col-7">
                     <div className="p-1 pt-2 h-100 position-relative">
@@ -179,7 +178,7 @@ export default function ProfileStore() {
         {/****************************END OF HEADER  *******************************/}
         <div className="bg-light p-0 mb-4 py-2 ">
           <div className="container d-flex align-items-center justify-content-between">
-            <strong className="d-block py-2">Products </strong>
+            <h5 className="d-block py-2 m-0">Products </h5>
 
             <button
               className="btn btn-primary py-1 m-0"
@@ -197,11 +196,11 @@ export default function ProfileStore() {
           loader={
             <>
               <div
-                class="d-flex justify-content-center align-items-center "
+                className="d-flex justify-content-center align-items-center "
                 style={{ height: "250px" }}
               >
-                <div class="spinner-border " role="status">
-                  <span class="visually-hidden">Loading...</span>
+                <div className="spinner-border " role="status">
+                  <span className="visually-hidden">Loading...</span>
                 </div>
               </div>
             </>

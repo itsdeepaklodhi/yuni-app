@@ -1,4 +1,4 @@
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState, useRef } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
@@ -7,7 +7,7 @@ import tt from "@tomtom-international/web-sdk-maps";
 import { services } from "@tomtom-international/web-sdk-services";
 import { JwtContext, LocationContext, ToastContext } from "../App";
 import { Modal } from "bootstrap";
-
+import { ttKey } from "../config";
 import storedp from "../images/storedp.jpg";
 
 export default function Product() {
@@ -90,36 +90,37 @@ export default function Product() {
     return (
       <>
         <div
-          class="d-flex justify-content-center align-items-center "
+          className="d-flex justify-content-center align-items-center "
           style={{ height: "90vh" }}
         >
-          <div class="spinner-border " role="status">
-            <span class="visually-hidden">Loading...</span>
+          <div className="spinner-border " role="status">
+            <span className="visually-hidden">Loading...</span>
           </div>
         </div>
       </>
     );
 
   return (
-    <section className="py-3 py-sm-4">
+    <section className="pb-4">
       <div className="container">
         <div className="row">
           <aside className="col-lg-6">
-            <article className="gallery-wrap gallery-vertical">
+            <article className="gallery-wrap gallery-vertical sticky-lg-top  pt-3 pt-sm-4 ">
               <div className="img-big-wrap img-thumbnail">
                 {/* <div className="" style={{ height: "500px ", overflow: "clip" }}> */}
-                <img src={product.imageUrls[0]} id="main-img" />
+                <img src={product.imageUrls[0]} id="main-img" alt="product" />
               </div>
               {/*********************  img-big-wrap***************************/}
               <div className="thumbs-wrap">
-                {product.imageUrls.map((imgUrl) => (
+                {product.imageUrls.map((imgUrl,i) => (
                   <div
+                    key={"img"+i}
                     className="item-thumb"
                     onClick={() =>
                       (document.querySelector("#main-img").src = imgUrl)
                     }
                   >
-                    <img width="60" height="60" src={imgUrl} />
+                    <img width="60" height="60" src={imgUrl} alt="product thumbnail"/>
                   </div>
                 ))}
               </div>
@@ -127,7 +128,7 @@ export default function Product() {
             </article>
             {/***************<!-- gallery-wrap .end// -->*********************/}
           </aside>
-          <main className="col-lg-6">
+          <main className="col-lg-6 pt-lg-4 ">
             <div className="p-0">
               <div className="titte">
                 <h4>
@@ -165,6 +166,7 @@ export default function Product() {
                   <div className="col-4">
                     <div className="img-wrap" style={{ height: "100px" }}>
                       <img
+                        alt="store"
                         src={product.store.imageUrl || storedp}
                         onError={(e) => {
                           e.target.onerror = null;
@@ -222,9 +224,9 @@ export default function Product() {
               <div className="specs mt-4">
                 <h5 className="mb-0">Specification-</h5>
                 <div className="row gy-2 specs-row m-0">
-                  {Object.keys(product.specs).map((key) => (
+                  {Object.keys(product.specs).map((key,i) => (
                     <>
-                      <div className="col col-6 col-md-4 spec-col ">
+                      <div key={"spec"+i} className="col col-6 col-md-4 spec-col ">
                         <div className="border-bottom h-100">
                           <p className="m-0 spec fw-bold">{key}</p>
                           <p className="value mb-0">{product.specs[key]}</p>
@@ -287,11 +289,14 @@ function MapModal(props) {
   }, []);
 
   const loadMap = () => {
+
+    if(ttMap.current) return;
+
     const current = [location.longitude, location.latitude];
     const storeLocation = [props.store.lng, props.store.ltd];
     // const current = [77.733788, 24.5701017];
     var map = tt.map({
-      key: "p5U8MxTf8OGcluRN9TD3POVGMLtGAiis",
+      key: ttKey,
       container: mapContainer.current,
       dragPan: true,
     });
@@ -331,23 +336,11 @@ function MapModal(props) {
       // .togglePopup();
     };
 
-    const findFirstBuildingLayerId = () => {
-      var layers = map.getStyle().layers;
-      for (var index in layers) {
-        if (layers[index].type === "fill-extrusion") {
-          return layers[index].id;
-        }
-      }
-
-      throw new Error(
-        "Map style does not contain any layer with fill-extrusion type."
-      );
-    };
 
     map.once("load", () => {
       services
         .calculateRoute({
-          key: "p5U8MxTf8OGcluRN9TD3POVGMLtGAiis",
+          key: ttKey,
           traffic: false,
           locations: `${current[0]},${current[1]}:${storeLocation[0]},${storeLocation[1]}`,
         })
@@ -401,7 +394,7 @@ function MapModal(props) {
     <div
       className="modal fade"
       id="locationModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
       ref={mapModal}

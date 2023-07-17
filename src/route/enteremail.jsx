@@ -1,7 +1,8 @@
 import { Formik, useFormikContext, Field, Form, ErrorMessage } from "formik";
 import { useContext } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+import { useNavigate, useOutletContext, Link } from "react-router-dom";
 import * as Yup from "yup";
 import { SessionContext } from "../App";
 
@@ -9,12 +10,13 @@ export default function EnterEmail() {
   const navigate = useNavigate();
   const { token, setToken } = useContext(SessionContext);
   const [error, setError] = useState(undefined);
+  const {email : links} = useOutletContext();
   if (error) throw error;
 
   return (
-    <section className="padding-y" style={{ minHeight: "75vh" }}>
-      <div className="container  ">
-        <div className="mt-5 pt-5">
+    <section className="h-100 d-flex justify-content-center align-items-center">
+      <div className="container  py-5">
+        <div className="">
           <div className="card shadow mx-auto " style={{ maxWidth: "400px" }}>
             <div className="card">
               <div className="card-body">
@@ -31,7 +33,7 @@ export default function EnterEmail() {
                     const headers = new Headers();
                     if (token) headers.set("X-Auth-Token", token);
                     fetch(
-                      "https://api.yunistore.in/auth/signup/verify-email/email",
+                      links.endpoint,
                       {
                         method: "post",
                         body: form,
@@ -45,7 +47,7 @@ export default function EnterEmail() {
                             console.log(tkn);
                             setToken(tkn);
                           }
-                          navigate("/signup/enter-otp");
+                          navigate(links.to);
                         } else if (res.status === 400 || res.status === 409) {
                           res.json().then((json) => {
                             actions.setFieldError("email", json.message);
@@ -89,7 +91,7 @@ export default function EnterEmail() {
                 </Formik>
                 <hr />
                 <p className="text-center mb-2">
-                  Already have account? <a href="#">Sign in</a>
+                  Already have account? <Link to="/signin">Sign in</Link>
                 </p>
               </div>
             </div>

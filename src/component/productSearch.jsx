@@ -1,11 +1,13 @@
 import { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 import { LocationContext } from "../App";
 import { NoResult } from "../route/search";
 import Pagination from "./pagination";
 import ProductGrid, { Placeholder } from "./productgrid";
+
+import Distance from "./distance";
 
 export default function ProductSearch(props) {
   const [data, setData] = useState(undefined);
@@ -22,6 +24,7 @@ export default function ProductSearch(props) {
     formData.append("query", props.query);
     formData.append("size", pageSize);
     formData.append("page", props.page - 1);
+    formData.append("distance", props.distance);
     // formData.append("ltd", 24.5701017);
     formData.append("ltd", location.latitude);
     // formData.append("lng", 77.733788);
@@ -41,11 +44,14 @@ export default function ProductSearch(props) {
       .finally(() => setLoading(false));
   };
 
-  useEffect(() => console.log(data), [data]);
+  // useEffect(() => console.log(data), [data]);
 
   useEffect(() => {
     requestData();
-  }, [props.page, props.query, location]);
+  }, [props.page, props.query, props.distance, location]);
+
+
+  
 
   if (loading)
     return (
@@ -63,10 +69,17 @@ export default function ProductSearch(props) {
     <>
       <header className="bg-primary mb-4 py-1 text-white">
         <div className="container d-flex align-items-center justify-content-between">
-          <strong className="d-block py-2">
+          <div>
+
+          <span className="d-block py-2">
             {data.totalElements}
             {data.totalElements > 1 ? " Product's Found" : " Product Found"}
-          </strong>
+          </span>
+          </div>
+          <div>
+              <Distance distance={props.distance} changeDistance={props.changeDistance}/>     
+          </div>
+          
         </div>
       </header>
       {data.content.length ? (

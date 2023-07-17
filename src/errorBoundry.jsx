@@ -6,6 +6,7 @@ import {
   useRouteError,
 } from "react-router-dom";
 
+
 // export default class ErrorBoundary extends React.Component {
 //   constructor(props) {
 //     super(props);
@@ -40,10 +41,13 @@ import {
 export default function ErrorBoundary() {
   let error = useRouteError();
   const navigate = useNavigate();
-  console.error(error);
+  
+  
   // Uncaught ReferenceError: path is not defined
   // Uncaught ReferenceError: path is not defined
   if (isRouteErrorResponse(error) || error instanceof Response) {
+      // console.log(error.data);
+      // error.json().then(console.log);
     let msg = "";
     switch (error.status) {
       case 400:
@@ -57,9 +61,6 @@ export default function ErrorBoundary() {
             and try again
           </p>
         );
-        break;
-      case 403:
-        msg = "You are UnAuthorized to request this resource";
         break;
       case 404:
         msg = "We are not able to find the resource you requested";
@@ -105,7 +106,7 @@ export default function ErrorBoundary() {
               lineHeight: "1.6em",
             }}
           >
-            <div class="hgroup mb-2">
+            <div className="hgroup mb-2">
               <h1 className="mb-2 fs-1 text-uppercase">
                 Something Just Went Wrong !
               </h1>
@@ -141,7 +142,7 @@ export default function ErrorBoundary() {
             lineHeight: "1.6em",
           }}
         >
-          <div class="hgroup mb-2">
+          <div className="hgroup mb-2">
             <h1 className="mb-2 fs-1 text-uppercase">
               Something Just Went Wrong !
             </h1>

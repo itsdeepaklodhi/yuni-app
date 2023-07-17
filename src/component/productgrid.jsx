@@ -18,7 +18,7 @@ export default function ProductGrid(props) {
               onClick={() => goTo(product.id)}
             >
               <div className="img-wrap bg-white">
-                <img src={product.imageUrl} />
+                <img src={product.imageUrl} alt="product" />
               </div>
               <figcaption className="info-wrap border-top">
                 <p className="title limit-2lines">{product.title}</p>
@@ -38,9 +38,9 @@ export default function ProductGrid(props) {
 export function Placeholder(props) {
   return (
     <div className="container my-4">
-      <div className="row g-2 g-sm-3">
+      <div className="row ">
         {Array.from({ length: props.length }, (_, i) => (
-          <div className="col-lg-3 col-md-4 col-6 ">
+          <div className="col-lg-3 col-md-4 col-6 " key={i}>
             <figure className="card card-product-grid placeholder-wave d-flex">
               <div className="img-wrap placeholder "></div>
               <figcaption className="info-wrap border-top">

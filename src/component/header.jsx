@@ -1,8 +1,12 @@
+
 import yunistore from "../images/yunistore-1.png";
-import { Form, Link, useNavigate } from "react-router-dom";
+import { Form, Link, useSearchParams } from "react-router-dom";
+
 
 export default function Header() {
-  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const distance = searchParams.get("distance") || 10;
 
   return (
     <header className="header-main bg-white border-bottom">
@@ -49,6 +53,7 @@ export default function Header() {
                   <option value="product">Product</option>
                   <option value="store">Store</option>
                 </select>
+                <input type="number" className="d-none" readOnly name="distance" value={distance} />
                 <button type="submit" className="btn btn-primary">
                   <i className="bi bi-search" style={{ fontSize: "17px" }}></i>
                 </button>

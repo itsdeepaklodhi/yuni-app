@@ -3,13 +3,13 @@ import { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { LocationContext } from "../App";
+import {  LocationContext } from "../App";
 import ProductGrid, { Placeholder } from "../component/productgrid";
 import Pagination from "../component/pagination";
 import { useMemo } from "react";
-import { useRef } from "react";
+import Distance from "../component/distance";
 
-export default function Categories(props) {
+export default function Category(props) {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { location } = useContext(LocationContext);
@@ -21,8 +21,14 @@ export default function Categories(props) {
   const [error, setError] = useState(undefined);
   if (error) throw error;
 
+
   const id = searchParams.get("id");
   const page = searchParams.get("page") || 1;
+  const distance = searchParams.get("distance") || 10;
+
+  const changeDistance = (newDistance)=>{
+    navigate(`/category?id=${id}&distance=${newDistance}`)
+  }
 
   const selected = useMemo(() => {
     if (!category) return null;
@@ -67,11 +73,12 @@ export default function Categories(props) {
   useEffect(() => {
     if (!id) return;
     setproductLoading(true);
-    getProducts(id, page, location).then((products) => {
+    getProducts(id, page,  location).then((products) => {
       setProducts(products);
       setproductLoading(false);
     });
-  }, [id, page, location]);
+  }, [id, page, distance, location]);
+
 
   // useEffect(() => console.log(categories), [categories]);
 
@@ -96,6 +103,8 @@ export default function Categories(props) {
     formData.append("id", id);
     formData.append("size", pageSize);
     formData.append("page", page - 1);
+    formData.append("distance", distance);
+    
     // formData.append("ltd", 24.5701017);
     formData.append("ltd", location.latitude);
     // formData.append("lng", 77.733788);
@@ -125,30 +134,30 @@ export default function Categories(props) {
                 {categories[i] && (categories[i].length || "") && (
                   <>
                     {!i || <div className="text-white px-1">/</div>}
-                    <div className="dropdown">
-                      <a
+                    <div className="dropdown" key={i}>
+                      <span
                         className="text-white dropdown-toggle"
                         type="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
                         {cat || "select"}
-                      </a>
+                      </span>
                       {
                         <ul
                           className="dropdown-menu"
                           style={{ overflow: "auto", maxHeight: "75vh" }}
                         >
-                          {categories[i].sort().map((category) => (
-                            <li className="">
-                              <a
+                          {categories[i].sort().map((category, index) => (
+                            <li className="" key={index}>
+                              <span
                                 className="dropdown-item"
                                 onClick={() => {
-                                  navigate(`/category?id=${category.id}`);
+                                  navigate(`/category?id=${category.id}&distance=${distance}`);
                                 }}
                               >
                                 {category.name}
-                              </a>
+                              </span>
                             </li>
                           ))}
                         </ul>
@@ -173,7 +182,7 @@ export default function Categories(props) {
         <>
           <header className="bg-primary mb-4  text-white">
             <div className="container d-flex align-items-center justify-content-between">
-              <strong className="d-block py-2">Loading...</strong>
+              <span className="d-block py-2">Loading...</span>
             </div>
           </header>
 
@@ -186,10 +195,16 @@ export default function Categories(props) {
           <>
             <header className="bg-primary mb-4  text-white">
               <div className="container d-flex align-items-center justify-content-between">
-                <strong className="d-block py-2">
+                <div>
+
+                <span className="d-block  py-2">
                   {products.totalElements}
-                  {products.totalElements > 1 ? " Item's Found" : " Item Found"}
-                </strong>
+                  {products.totalElements > 1 ? " Product's Found" : " Product Found"}
+                </span>
+                </div>
+                <div>
+                  <Distance distance = {distance} changeDistance={changeDistance}/>
+                </div>
               </div>
             </header>
             {products.totalElements ? (
@@ -200,7 +215,7 @@ export default function Categories(props) {
                 <Pagination
                   currentPage={page}
                   changeCurrentPage={(pageNo) =>
-                    navigate(`/category?id=${id}&page=${pageNo}`)
+                    navigate(`/category?id=${id}&page=${pageNo}&distance=${distance}`)
                   }
                   totalPages={products.totalPages}
                 />
@@ -210,8 +225,8 @@ export default function Categories(props) {
                 className="d-flex align-items-center flex-column justify-content-center"
                 style={{ height: "60vh" }}
               >
-                <h2 className="">Sorry, no results found!</h2>
-                <p className="fw-lighter fs-5">
+                <h3 className="">Sorry, no results found!</h3>
+                <p className="fw-lighter fs-6 text-center">
                   Please select another category or try searching for something
                   else
                 </p>

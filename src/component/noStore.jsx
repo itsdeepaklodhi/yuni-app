@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link, useOutlet, useOutletContext } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 
 export default function NoStore() {
   const { setNavComp } = useOutletContext();

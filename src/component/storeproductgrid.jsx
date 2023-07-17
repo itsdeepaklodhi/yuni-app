@@ -1,4 +1,4 @@
-import { Modal } from "bootstrap";
+
 export default function StoreProductGrid(props) {
   const products = props.products;
 
@@ -15,7 +15,7 @@ export default function StoreProductGrid(props) {
           >
             <div className="postion-relative">
               <div className="img-wrap bg-white">
-                <img src={product.imageUrl} />
+                <img src={product.imageUrl} alt="product" />
               </div>
               <div className="d-flex w-100 px-2 py-1 justify-content-between position-absolute bottom-0 bg-trasparent d-none">
                 <button className="btn btn-light px-3 py-0">View</button>

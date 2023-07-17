@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+
 
 export default function Pagination({
   currentPage,
@@ -6,7 +6,7 @@ export default function Pagination({
   changeCurrentPage,
 }) {
   const changePage = (page) => {
-    console.log(page);
+    // console.log(page);
     if (page < 1 || page > totalPages) return;
     // console.log("changing page");
 
@@ -52,8 +52,7 @@ export default function Pagination({
               className="page-link"
               onClick={() => {
                 changePage(1 + Number(currentPage));
-                console.log(currentPage);
-                console.log(totalPages);
+                
               }}
             >
               Next

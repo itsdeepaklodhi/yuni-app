@@ -4,7 +4,7 @@ import storedp from "../images/storedp.jpg";
 import ProductGrid, { Placeholder } from "../component/productgrid";
 import InfiniteScroll from "react-infinite-scroller";
 import tt from "@tomtom-international/web-sdk-maps";
-import { useReducer } from "react";
+import { ttKey } from "../config";
 
 export default function Store() {
   const [store, setStore] = useState(undefined);
@@ -36,7 +36,7 @@ export default function Store() {
     const storeLocation = [store.lng, store.ltd];
     // const current = [77.733788, 24.5701017];
     var map = tt.map({
-      key: "p5U8MxTf8OGcluRN9TD3POVGMLtGAiis",
+      key: ttKey,
       container: mapContainer.current,
       center: storeLocation,
       zoom: 13,
@@ -74,11 +74,11 @@ export default function Store() {
     return (
       <>
         <div
-          class="d-flex justify-content-center align-items-center "
+          className="d-flex justify-content-center align-items-center "
           style={{ height: "90vh" }}
         >
-          <div class="spinner-border " role="status">
-            <span class="visually-hidden">Loading...</span>
+          <div className="spinner-border " role="status">
+            <span className="visually-hidden">Loading...</span>
           </div>
         </div>
       </>
@@ -93,9 +93,9 @@ export default function Store() {
             <div className="col-md-6 ">
               <div className="row">
                 <aside className="col-5 store bg-light">
-                  <a href="#" className="img-wrap">
-                    <img src={store.imageUrl || storedp} />
-                  </a>
+                  <div className="img-wrap">
+                    <img src={store.imageUrl || storedp} alt="store" />
+                  </div>
                 </aside>
                 <div className="col-7">
                   <div className="p-1 pt-2">
@@ -117,9 +117,10 @@ export default function Store() {
         </div>
       </div>
       {/****************************END OF HEADER  *******************************/}
-      <div className="bg-light mb-4 py-3 ">
+      <div className="bg-light mb-4 py-2 ">
         <div className="container d-flex align-items-center justify-content-between">
-          <strong className="d-block ">Products </strong>
+        
+        <h5 className="d-block py-2 m-0">Products </h5>
         </div>
       </div>
       {/**************************END OF NAV *****************************/}

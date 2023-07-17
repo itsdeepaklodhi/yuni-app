@@ -35,11 +35,11 @@ export default function ProfileMainShow(props) {
     return (
       <>
         <div
-          class="d-flex justify-content-center align-items-center "
+          className="d-flex justify-content-center align-items-center "
           style={{ height: "50vh" }}
         >
-          <div class="spinner-border " role="status">
-            <span class="visually-hidden">Loading...</span>
+          <div className="spinner-border " role="status">
+            <span className="visually-hidden">Loading...</span>
           </div>
         </div>
       </>

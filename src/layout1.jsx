@@ -41,13 +41,15 @@ export default function Layout1() {
   return (
     <>
       <Header />
+      <div>
 
       {pageState === "denied" ? <LocationError /> : null}
       {pageState === "prompt" ? (
         <AskLocation getLocation={getLocation} />
-      ) : null}
+        ) : null}
 
       <Outlet />
+        </div>
       <Footer />
     </>
   );

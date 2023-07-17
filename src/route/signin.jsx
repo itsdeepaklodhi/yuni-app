@@ -32,8 +32,9 @@ export default function Signin() {
   });
 
   return (
-    <section className="padding-y">
-      <div className="container">
+    <section className="h-100 d-flex justify-content-center align-items-center">
+     <div className="container  py-5">
+
         <div className="card shadow mx-auto" style={{ maxWidth: "400px" }}>
           <div className="card">
             <div className="card-body">
@@ -52,14 +53,14 @@ export default function Signin() {
                     className="form-control"
                     placeholder="ex. name@gmail.com"
                     type="email"
-                  />
+                    />
                 </div>
 
                 <div className="mb-3">
                   <label className="form-label">Password</label>
-                  <a className="float-end" href="#">
+                  <Link className="float-end" to="/forgot-password/enter-email">
                     Forgot?
-                  </a>
+                  </Link>
                   <input
                     className="form-control"
                     name="password"
@@ -68,14 +69,14 @@ export default function Signin() {
                     maxLength={20}
                     placeholder="******"
                     type="password"
-                  />
+                    />
                 </div>
 
                 <button
                   className="btn w-100 btn-primary"
                   type="submit"
                   disabled={navigation.state === "submitting"}
-                >
+                  >
                   Sign in
                 </button>
               </Form>
@@ -87,6 +88,7 @@ export default function Signin() {
             </div>
           </div>
         </div>
+      
       </div>
     </section>
   );
@@ -98,7 +100,7 @@ export async function action({ request }) {
     method: "post",
     body: formData,
   });
-
+  
   const result = {
     jwt: "",
     err: "",

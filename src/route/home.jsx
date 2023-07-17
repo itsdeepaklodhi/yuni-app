@@ -1,5 +1,4 @@
 import { useEffect, useState, useContext } from "react";
-import { useOutletContext } from "react-router-dom";
 import { LocationContext } from "../App";
 import Categories from "../component/categories";
 import ProductGrid, { Placeholder } from "../component/productgrid";
@@ -21,6 +20,7 @@ export default function Home() {
       const formData = new FormData();
       formData.append("size", 20);
       formData.append("page", 0);
+      formData.append("distance",10);
       // formData.append("ltd", 24.5701017);
       formData.append("ltd", location.latitude);
       // formData.append("lng", 77.733788);
@@ -56,10 +56,10 @@ export default function Home() {
         >
           <article className="text-center">
             <h1 className="display-4 text-white">
-              Find great products <br />
+              Find great Products <br />
               around you
             </h1>
-            <p className="lead text-white">make your shopping more easier.</p>
+            <p className="lead text-white">Make your shopping more easier.</p>
             {/* <a href="#" className="btn btn-warning py-1">
               Continue
             </a> */}
@@ -69,10 +69,14 @@ export default function Home() {
       <Categories />
 
       <section className="padding-y">
-        <div className="container">
-          <header className="section-heading">
-            <h2 className="section-title">New products</h2>
+          <header className="section-heading bg-light py-2" >
+            <div className="container">
+            <h5 className="d-block py-2 m-0">New Products </h5>
+
+            </div>
+            
           </header>
+        <div className="container">
           {data ? (
             <ProductGrid products={data.content} />
           ) : (

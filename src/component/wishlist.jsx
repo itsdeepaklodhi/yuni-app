@@ -36,11 +36,11 @@ export default function WishList() {
     return (
       <>
         <div
-          class="d-flex justify-content-center align-items-center "
+          className="d-flex justify-content-center align-items-center "
           style={{ height: "40vh" }}
         >
-          <div class="spinner-border " role="status">
-            <span class="visually-hidden">Loading...</span>
+          <div className="spinner-border " role="status">
+            <span className="visually-hidden">Loading...</span>
           </div>
         </div>
       </>
@@ -52,7 +52,7 @@ export default function WishList() {
         className="d-flex align-items-center flex-column justify-content-center"
         style={{ height: "40vh" }}
       >
-        <h3 className="">Sorry, Empty Wishlist!</h3>
+        <h4 className="">Sorry, Empty Wishlist!</h4>
       </div>
     );
 

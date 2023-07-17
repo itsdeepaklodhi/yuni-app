@@ -1,9 +1,9 @@
 import { useEffect, useState, useContext } from "react";
 import { LocationContext } from "../App.js";
-import { useNavigate } from "react-router-dom";
 import Pagination from "./pagination.jsx";
 import StoreList, { Placeholder } from "./storeList.jsx";
 import { NoResult } from "../route/search.jsx";
+import Distance from "./distance.jsx";
 export default function StoreSearch(props) {
   const [data, setData] = useState(undefined);
   const [loading, setLoading] = useState(true);
@@ -19,6 +19,7 @@ export default function StoreSearch(props) {
     formData.append("query", props.query);
     formData.append("size", pageSize);
     formData.append("page", props.page - 1);
+    formData.append("distance", props.distance);
     // formData.append("ltd", 24.5701017);
     formData.append("ltd", location.latitude);
     // formData.append("lng", 77.733788);
@@ -39,8 +40,12 @@ export default function StoreSearch(props) {
   };
 
   useEffect(() => {
+    
     requestData();
-  }, [props.page, props.query, location]);
+    
+  }, [props.page, props.query, props.distance, location]);
+
+
 
   if (loading) {
     return (
@@ -61,10 +66,15 @@ export default function StoreSearch(props) {
     <>
       <header className="bg-primary mb-4 py-1 text-white">
         <div className="container d-flex align-items-center justify-content-between">
-          <strong className="d-block py-2">
-            {data.totalElements}
-            {data.totalElements > 1 ? " Store's Found" : " Store Found"}
-          </strong>
+          <div>
+              <span className="d-block py-2">
+                {data.totalElements}
+                {data.totalElements > 1 ? " Store's Found" : " Store Found"}
+              </span>
+          </div>
+          <div>
+          <Distance distance={props.distance} changeDistance={props.changeDistance}/>
+          </div>
         </div>
       </header>
 

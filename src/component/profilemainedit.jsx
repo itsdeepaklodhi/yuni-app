@@ -1,13 +1,10 @@
-import { useNavigate, useOutletContext, redirect } from "react-router-dom";
+import { useNavigate, useOutletContext, } from "react-router-dom";
 import { useEffect, useContext, useState } from "react";
 import { JwtContext, ToastContext } from "../App";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Toast } from "bootstrap";
 
-// require("react-dom");
-// window.React2 = require("react");
-// console.log(window.React1 === window.React2);
+
 
 export default function ProfileMainEdit(props) {
   const { setNavComp } = useOutletContext();
@@ -46,24 +43,24 @@ export default function ProfileMainEdit(props) {
     return (
       <>
         <div
-          class="d-flex justify-content-center align-items-center "
+          className="d-flex justify-content-center align-items-center "
           style={{ height: "70vh" }}
         >
-          <div class="spinner-border " role="status">
-            <span class="visually-hidden">Loading...</span>
+          <div className="spinner-border " role="status">
+            <span className="visually-hidden">Loading...</span>
           </div>
         </div>
       </>
+
     );
 
   return (
-    <article className="container">
-      <div className=" py-2">
+    <article className="container ">
+      <div className=" p-2">
         <Formik
+          enableReinitialize= {true}
           initialValues={{
-            name: data.name,
-            gender: data.gender,
-            dob: data.dob,
+           ...data
           }}
           validationSchema={Yup.object({
             name: Yup.string()
@@ -83,10 +80,11 @@ export default function ProfileMainEdit(props) {
             })
               .then((res) => {
                 if (!res.ok) throw res;
-                navigate("/profile/main");
+                return res.json();
               })
-              .catch((err) => setError(err))
-              .finally(() => actions.setSubmitting(false));
+              .then(setData)
+              .catch(setError)
+              
           }}
         >
           {({ isSubmitting, dirty }) => (
@@ -104,7 +102,9 @@ export default function ProfileMainEdit(props) {
                     defaultValue={data.name}
         />*/}
                       <Field name="name" className="form-control" />
-                      <ErrorMessage name="name" />
+                      <ErrorMessage name="name" className="invalid-field" >
+                        {(msg) => <div className="invalid-field">{msg}</div>}
+                        </ErrorMessage>
                     </div>
 
                     <div className=" mb-3">
@@ -120,7 +120,7 @@ export default function ProfileMainEdit(props) {
                     />*/}
                         <label className="form-check-label" htmlFor="maleradio">
                           <Field type="radio" name="gender" value="MALE" />
-                          Male
+                          <span className="px-1">Male</span>
                         </label>
                       </div>
                       <div className="form-check form-check-inline">
@@ -136,7 +136,7 @@ export default function ProfileMainEdit(props) {
                           htmlFor="femaleradio"
                         >
                           <Field type="radio" name="gender" value="FEMALE" />
-                          Female
+                          <span className="px-1">Female</span>
                         </label>
                       </div>
                       <div className="form-check form-check-inline">
@@ -152,10 +152,12 @@ export default function ProfileMainEdit(props) {
                           htmlFor="otherradio"
                         >
                           <Field type="radio" name="gender" value="OTHER" />
-                          Other
+                          <span className="px-1">Other</span>
                         </label>
                       </div>
-                      <ErrorMessage name="gender" />
+                      <ErrorMessage name="gender" >
+                      {(msg) => <div className="invalid-field">{msg}</div>}
+                        </ErrorMessage>
                     </div>
 
                     <div className="col-lg-8 col-sm-6  mb-3">
@@ -168,12 +170,14 @@ export default function ProfileMainEdit(props) {
                     defaultValue={data.dob}
                   />*/}
                       <Field type="date" name="dob" className="form-control" />
-                      <ErrorMessage name="dob" />
+                      <ErrorMessage name="dob" >
+                      {(msg) => <div className="invalid-field">{msg}</div>}
+                        </ErrorMessage>
                     </div>
                   </div>
                 </div>
               </div>
-              <br />
+              
               <button
                 className="btn btn-primary"
                 type="submit"
@@ -191,6 +195,7 @@ export default function ProfileMainEdit(props) {
           <div className="col-md-6">
             <article className="box mb-3 bg-light">
               <button
+              disabled
                 className="btn float-end btn-outline-danger btn-sm"
                 onClick={() => {
                   if (window.confirm("Are you sure to Remove Your Store")) {
@@ -224,24 +229,3 @@ export default function ProfileMainEdit(props) {
   );
 }
 
-export async function action({ request }) {
-  const formData = await request.formData();
-
-  const res = await fetch("https://api.yunistore.in/user", {
-    method: "put",
-    body: {
-      name: formData.get("name"),
-      gender: formData.get("gender"),
-      dob: formData.get("dob"),
-    },
-    headers: {
-      "content-type": "application/json",
-    },
-  });
-
-  if (res.ok) {
-    return redirect("/profile/main");
-  } else {
-    throw res;
-  }
-}

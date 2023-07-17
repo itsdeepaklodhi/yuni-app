@@ -1,14 +1,15 @@
-import { Formik, Field, Form, ErrorMessage, yupToFormErrors } from "formik";
+import { Formik, Field, Form, ErrorMessage} from "formik";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Modal } from "bootstrap";
-import { JwtContext, SessionContext, ToastContext } from "../App";
+import { JwtContext, ToastContext } from "../App";
+
+
 export default function UpdateProduct({
   editProductId,
-  fetchStore,
   updateModal,
   setUpdateModal,
   updateProduct,
@@ -49,6 +50,8 @@ export default function UpdateProduct({
 
   const MyFormik = (formikProps) => (
     <Formik
+
+      enableReinitialize={true}
       initialStatus={{
         specLength: product ? Object.entries(product.specs).length : 2,
       }}
